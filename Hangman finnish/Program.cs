@@ -17,121 +17,154 @@ namespace Hangman_finnish
         static string CurrentWordLength;
         static string CurrentWord;
         static string GameWords;
-        List<char> guessedChars = new List<char>();
+        static List<char> GuessedChars = new List<char>();
+        static List<string> WordBank = new List<string>();
         static void Main(string[] args)
+
         {
+
+
+
 
             Random random = new Random();
             string[] wordBank = { " blomma", "stad", "gul", "växjö" };
+
             string GameWords = wordBank[random.Next(wordBank.Count() - 1)];
             string GameWordsUpercase = GameWords.ToUpper();
+            Console.WriteLine(GameWordsUpercase);
 
+            PlayHangman();
 
-            //Console.WriteLine(GameWordsUpercase);
-            StringBuilder dispToPlayer = new StringBuilder(GameWords.Length);
-
-            //for (int i = 0; i < wordBank.Length; i++)
-            //dispToPlayer.Append('_');
-            //Console.WriteLine($" {wordBank});
-
-
-            playHangman();
         }
-        static void playHangman()
-        {
-            lives = 10;
-            bool won = false;
-            //int lettersReve = 0;
 
-            List<char> guessedChars = new List<char>();
-            List<char> incorrectGuesse = new List<char>();
+        static void PlayHangman()
+        { 
+                Random rand = new Random();
+            string GameWords = wordBank[rand.Next(wordBank.Count() - 1)];
+         
+
+
+            //StringBuilder dispToPlayer = new StringBuilder(GameWords.Length);
+            //for (int i = 0; i < GameWords.Length; i++)
+            //dispToPlayer.Append('_');
+
             //GameWordsLength = GameWords.Length;
+
+
+            //StringBuilder dispToPlayer = new StringBuilder(GameWords.Length);
+            //for (int i = 0; i < GameWords.Length; i++)
+            //    dispToPlayer.Append('_');
+            ////Console.WriteLine(dispToPlayer);
+
+
+            List<char> GuessedChars = new List<char>();
+            List<char> incorrectGuesse = new List<char>();
+           
             //string input;
             //char guess;
-             //while ( !won && lives > 0 )
+            //while ( !won && lives > 0 )
 
-          
+
             //input = Console.ReadLine().ToUpper();
-               //guess = input[0];
-       
-        
+            //guess = input[0];
 
+
+
+            lives = 10;
+            //bool won = false;
+            //int lettersReve = 0;
             Console.WriteLine(" Lives:  " + lives + "\n");
-            Console.WriteLine(" welcome  and guess a letter: ");
+            //Console.WriteLine(" welcome  and guess a letter: ");
             //char guess = Char.ToLower(Console.ReadKey().KeyChar);
             string winning = "";
             int drawLength = 0;
+            //GameWordsLength = GameWords.Length;
 
             for (int i = 0; i < GameWords.Length; i++)
 
             {
 
-                if (GameWords.Any())
+                if (GuessedChars.Any())
                 {
-                    if (GameWords.Contains(CurrentWord[i]))
+                    if (GuessedChars.Contains(GameWords[i]))
 
-                        Console.Write(CurrentWord[i].ToString() + " ");
-                    winning += CurrentWord[i].ToString();
-                    if (winning == CurrentWord)
+                        Console.Write(GameWords[i].ToString() + " ");
+                    winning += GameWords[i].ToString();
+                    if (winning == GameWords)
                     {
                         //win();
-
-                       
+                        return;
+                        //dispToPlayer.Append('_');
                     }
                     else
                         Console.Write("_");
-
+                    //dispToPlayer.Append('_');
                 }
                 else
 
                 {
+                    //dispToPlayer.Append('_');
                     Console.Write("_");
                 }
             }
 
             Console.WriteLine("\n\n");
             Console.WriteLine(" welcome  and guess a letter: ");
-            //Console.ReadKey().KeyChar);
-            char guess = Char.ToLower(Console.ReadKey().KeyChar);
+            //Console.ReadKey().ToUpper;
+            char guess = Char.ToUpper(Console.ReadKey().KeyChar);
+            string input;
 
-            CheckGuess(guess);
 
-        }
-        static void CheckGuess(char guess)
-        {
+
 
             Console.WriteLine();
-            bool guessOne = false;
+            bool guessedOne = false;
 
             for (int i = 0; i < GameWords.Length; i++)
 
             {
-                if (CurrentWord[i] == guess)
+                if (GameWords[i] == guess)
                 {
-
-                    guessOne = true;
-                    return;
-                    //GameWords.Replace(CurrentWord[i]);
+                    guessedOne = true;
+                    GuessedChars.Add(GameWords[i]);
+                    //GuessedChars.Replace(GameWords[i]);
 
                 }
-                if (guessOne == false)
+                if (guessedOne == false)
                     --lives;
 
                 if (lives <= 0) ;
+                Restart();
 
-                   
+
+
 
 
             }
 
         }
-        //Console.WriteLine(" Guess a letter: ");
+        static void Restart()
+        {
+            Console.WriteLine(" du vann inte vill du spela igen? j/n; ");
+            char answer = Console.ReadKey().KeyChar;
 
-        //string GameWords = wordBank[random.Next(wordBank.Count() - 1)];
-        //string GameWordsUpercase = GameWords.ToUpper();
-        //Console.WriteLine(GameWordsUpercase);
-        //StringBuilder dispToPlayer = new StringBuilder(GameWords.Length);
-        //for (int i = 0; i < wordBank.Length; i++)
+            if (char.ToLower(answer) == 'j')
+            {
+               // PlayHangman();
+            }
+        }
+        static void won()
+        {
+            Console.WriteLine("\n\n Grattis! du vann! vill du splea igen j/n");
+            char answer = Console.ReadKey().KeyChar;
+
+            if (Char.ToLower(answer) == 'j')
+
+            {
+               // PlayHangman();
+            }
+        }
     }
+
 
 }
